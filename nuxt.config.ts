@@ -6,4 +6,7 @@ export default defineNuxtConfig({
   app: {
     baseURL: "/nuxt3-demo/",
   },
+  generate: {
+    routes: ["/users/1", "/users/2", "/users/3"],
+  },
 });

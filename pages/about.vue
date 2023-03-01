@@ -17,7 +17,7 @@
 </template>
 
 <script setup lang="ts">
-import AboutItem from "./About/AboutItem.vue";
+import AboutItem from "@/components/about/AboutItem.vue";
 
 const count = ref(0);
 const store = reactive({
