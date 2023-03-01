@@ -1,0 +1,1 @@
+import{q as s,o,b as t,i as e}from"./entry.69c04789.js";const c={},n=e("h3",null,"esg",-1),_=e("div",{class:"container"},"esg 페이지",-1),a=[n,_];function r(i,d){return o(),t("div",null,a)}const f=s(c,[["render",r]]);export{f as default};

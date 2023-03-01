@@ -1,0 +1,1 @@
+import{a as s,s as a,r as o,o as r,b as n,t as c,u as i}from"./entry.69c04789.js";import"./app.config.21fb9323.js";const d=s({__name:"[id]",setup(p){const e=a(),t=o(e.params.id);return(u,m)=>(r(),n("div",null,"아이디 "+c(i(t)),1))}});export{d as default};
