@@ -7,7 +7,7 @@
           <nuxt-link to="/about">about</nuxt-link>
         </li>
         <li>
-          <nuxt-link to="/esg">esg</nuxt-link>
+          <nuxt-link to="/esg" noPrefetch>esg</nuxt-link>
         </li>
       </ul>
     </nav>
