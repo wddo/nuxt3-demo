@@ -31,7 +31,7 @@ export default defineNuxtConfig({
         },
         {
           name: "author",
-          content: "jiwoo.kim",
+          content: "wddo",
         },
       ],
       link: [{ rel: "icon", type: "image/x-icon", href: "/favicon.ico" }],
