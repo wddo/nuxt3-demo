@@ -7,26 +7,20 @@ export const useSessionStorage = <T extends Object>(
   const value = sessionStorage.getItem(key);
   const storageData = value ? JSON.parse(value) : null;
 
-  const data = ref<any | null>(storageData);
-  const storage = ref(defaultValue);
+  const storage = ref({ ...storageData, ...defaultValue });
 
   watch(
     storage,
     (value, oldValue, onCleanup) => {
       if (value) {
-        data.value = oldValue ? { ...oldValue, ...value } : { ...value };
+        const newValue = oldValue ? { ...oldValue, ...value } : { ...value };
+        sessionStorage.setItem(key, JSON.stringify(newValue));
+      } else {
+        sessionStorage.removeItem(key);
       }
     },
     { immediate: true }
   );
-
-  watchEffect(() => {
-    if (data.value) {
-      sessionStorage.setItem(key, JSON.stringify(data.value));
-    } else {
-      sessionStorage.removeItem(key);
-    }
-  });
 
   return {
     storage,

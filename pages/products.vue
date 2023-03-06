@@ -29,7 +29,7 @@ const { storage } = useSessionStorage<{ scrollY: number }>(
 onBeforeRouteLeave(({ name }) => {
   if (name === "product-id") {
     console.log(scroll.y);
-    storage.value!.scrollY = scroll.y;
+    storage.value = { scrollY: scroll.y };
   }
 });
 
