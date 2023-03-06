@@ -21,10 +21,15 @@ const { products, getProducts, increment } = useProductList();
 if (!products.data.length) onMounted(getProducts);
 
 const { scroll } = useScrollPosition();
+const { storage } = useSessionStorage<{ scrollY: number }>(
+  "product-list-state",
+  { scrollY: 0 }
+);
 
 onBeforeRouteLeave(({ name }) => {
   if (name === "product-id") {
     console.log(scroll.y);
+    storage.value!.scrollY = scroll.y;
   }
 });
 

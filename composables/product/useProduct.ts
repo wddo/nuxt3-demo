@@ -6,31 +6,24 @@ type Prodcut = {
 };
 
 export const useProductList = () => {
-  const page = ref(1);
   const products: {
     data: Prodcut[];
   } = reactive({
     data: [],
   });
 
+  const { storage } = useSessionStorage<{ page: number }>(
+    "product-list-state",
+    { page: 1 }
+  );
+
   const getProducts = async () => {
-    products.data = await fetchProductList(page.value);
+    products.data = await fetchProductList(storage.value!.page);
   };
 
   const increment = () => {
-    page.value += 1;
-
+    storage.value = { page: storage.value!.page + 1 };
     getProducts();
-    savePage();
-  };
-
-  const savePage = () => {
-    sessionStorage.setItem(
-      "product-list-state",
-      JSON.stringify({
-        page: page.value,
-      })
-    );
   };
 
   return {
