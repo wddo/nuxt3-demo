@@ -21,15 +21,14 @@ const { products, getProducts, increment } = useProductList();
 if (!products.data.length) onMounted(getProducts);
 
 const { scroll } = useScrollPosition();
-const { storage } = useSessionStorage<{ scrollY: number }>(
-  "product-list-state",
-  { scrollY: 0 }
-);
+const { storage } = useSessionStorage("product-state");
 
+// 상세 페이지로 이동 요청에 의해 페이지 떠날 때 스크롤 위치 저장
 onBeforeRouteLeave(({ name }) => {
   if (name === "product-id") {
-    console.log(scroll.y);
     storage.value = { scrollY: scroll.y };
+  } else {
+    storage.value = null;
   }
 });
 
@@ -46,8 +45,9 @@ const onMoreHandler = () => {
   flex-wrap: wrap;
 
   > div {
-    max-width: 50%;
-    min-width: 340px;
+    flex-basis: 50%;
+    /* max-width: 50%;
+    min-height: 431px; */
   }
 }
 

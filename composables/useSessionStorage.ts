@@ -2,20 +2,27 @@ import { UnwrapRef } from "nuxt/dist/app/compat/capi";
 
 export const useSessionStorage = <T extends Object>(
   key: string,
-  defaultValue: UnwrapRef<T> | null
+  defaultValue?: UnwrapRef<T>
 ) => {
-  const value = sessionStorage.getItem(key);
-  const storageData = value ? JSON.parse(value) : null;
-
-  const storage = ref({ ...storageData, ...defaultValue });
+  // 기존 sessionStorage 있으면 그것 없으면 defaultValue
+  const sessionValue = sessionStorage.getItem(key);
+  const storage = ref(!sessionValue ? defaultValue : JSON.parse(sessionValue));
 
   watch(
     storage,
     (value, oldValue, onCleanup) => {
+      // 기존 sessionStorage
+      const sessionValue = sessionStorage.getItem(key);
+      const storageData = sessionValue ? JSON.parse(sessionValue) : null;
+
       if (value) {
-        const newValue = oldValue ? { ...oldValue, ...value } : { ...value };
-        sessionStorage.setItem(key, JSON.stringify(newValue));
+        // 병합
+        sessionStorage.setItem(
+          key,
+          JSON.stringify({ ...storageData, ...value })
+        );
       } else {
+        // 제거
         sessionStorage.removeItem(key);
       }
     },

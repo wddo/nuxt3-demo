@@ -3,7 +3,7 @@
     <article class="product-item">
       <RouterLink :to="`./product/${id}`"></RouterLink>
       <div class="product-item-image">
-        <img :src="imgUri" alt="제품명" />
+        <img :src="imgUri" loading="lazy" alt="제품명" />
       </div>
       <div class="product-item-content">
         <h1>
@@ -43,13 +43,20 @@ const imgUri = `https://picsum.photos/200?random=${Math.random()}`;
     right: 0;
     left: 0;
     bottom: 0;
+    z-index: 1;
   }
 
   &-image {
-    object-fit: cover;
+    position: relative;
+    padding-bottom: 100%;
 
-    > img {
+    img {
+      position: absolute;
+      left: 50%;
+      top: 50%;
       width: 100%;
+      height: 100%;
+      transform: translate(-50%, -50%);
     }
   }
 

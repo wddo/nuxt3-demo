@@ -12,9 +12,10 @@ export const useProductList = () => {
     data: [],
   });
 
-  const { storage } = useSessionStorage<{ page: number }>(
-    "product-list-state",
-    { page: 1 }
+  const { scroll } = useScrollPosition();
+  const { storage } = useSessionStorage<{ page: number; scrollY: number }>(
+    "product-state",
+    { page: 1, scrollY: 0 }
   );
 
   const getProducts = async () => {
@@ -22,9 +23,21 @@ export const useProductList = () => {
   };
 
   const increment = () => {
-    storage.value = { page: storage.value!.page + 1 };
+    const { page } = storage.value;
+    const { y } = scroll;
+    storage.value = { page: page + 1, scrollY: y };
+
     getProducts();
   };
+
+  watch(
+    products,
+    () => {
+      const { scrollY } = storage.value;
+      window.scrollTo({ top: scrollY ?? 0 });
+    },
+    { flush: "post" }
+  );
 
   return {
     products,
