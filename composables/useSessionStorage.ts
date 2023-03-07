@@ -1,12 +1,15 @@
 import { UnwrapRef } from "nuxt/dist/app/compat/capi";
+import { context } from "~~/app/store";
 
 export const useSessionStorage = <T extends Object>(
   key: string,
   defaultValue?: UnwrapRef<T>
 ) => {
-  // 기존 sessionStorage 있으면 그것 없으면 defaultValue
+  // 기존 sessionStorage 없고 앱 첫 진입이면 defaultValue
   const sessionValue = sessionStorage.getItem(key);
-  const storage = ref(!sessionValue ? defaultValue : JSON.parse(sessionValue));
+  const storage = ref(
+    !sessionValue || !context.initial ? defaultValue : JSON.parse(sessionValue)
+  );
 
   watch(
     storage,

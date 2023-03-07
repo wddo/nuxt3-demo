@@ -16,12 +16,9 @@
 <script setup lang="ts">
 import { useProductList } from "~~/composables/product/useProduct";
 
-const { products, getProducts, increment } = useProductList();
-
-if (!products.data.length) onMounted(getProducts);
+const { products, increment, storage } = useProductList();
 
 const { scroll } = useScrollPosition();
-const { storage } = useSessionStorage("product-state");
 
 // 상세 페이지로 이동 요청에 의해 페이지 떠날 때 스크롤 위치 저장
 onBeforeRouteLeave(({ name }) => {
@@ -46,8 +43,6 @@ const onMoreHandler = () => {
 
   > div {
     flex-basis: 50%;
-    /* max-width: 50%;
-    min-height: 431px; */
   }
 }
 
