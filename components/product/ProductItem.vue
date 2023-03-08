@@ -3,7 +3,13 @@
     <article class="product-item">
       <RouterLink :to="`./product/${id}`"></RouterLink>
       <div class="product-item-image">
-        <img :src="imgUri" loading="lazy" alt="제품명" />
+        <img
+          :src="imgUri"
+          loading="lazy"
+          onerror="this.style.display='none';"
+          alt="제품명"
+        />
+        <ContentLoader class="fallback" viewBox="0 0 400 400" :speed="0.7" />
       </div>
       <div class="product-item-content">
         <h1>
@@ -23,8 +29,10 @@
 </template>
 
 <script setup lang="ts">
+import { ContentLoader } from "vue-content-loader";
+
 const { id } = useAttrs();
-const imgUri = `https://picsum.photos/200?random=${Math.random()}`;
+const imgUri = `https://picsum.photos/600?random=${Math.random()}`;
 </script>
 
 <style scoped lang="scss">
@@ -46,6 +54,15 @@ const imgUri = `https://picsum.photos/200?random=${Math.random()}`;
     z-index: 1;
   }
 
+  .fallback {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+  }
+
   &-image {
     position: relative;
     padding-bottom: 100%;
@@ -55,7 +72,6 @@ const imgUri = `https://picsum.photos/200?random=${Math.random()}`;
       left: 50%;
       top: 50%;
       width: 100%;
-      height: 100%;
       transform: translate(-50%, -50%);
     }
   }

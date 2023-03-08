@@ -13,5 +13,8 @@
     "nuxt": "^3.2.2",
     "push-dir": "^0.4.1",
     "sass": "^1.58.3"
+  },
+  "dependencies": {
+    "vue-content-loader": "^2.0.1"
   }
 }
