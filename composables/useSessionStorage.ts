@@ -11,26 +11,13 @@ export const useSessionStorage = <T extends Object>(
     !sessionValue || !context.initial ? defaultValue : JSON.parse(sessionValue)
   );
 
-  watch(
-    storage,
-    (value, oldValue, onCleanup) => {
-      // 기존 sessionStorage
-      const sessionValue = sessionStorage.getItem(key);
-      const storageData = sessionValue ? JSON.parse(sessionValue) : null;
-
-      if (value) {
-        // 병합
-        sessionStorage.setItem(
-          key,
-          JSON.stringify({ ...storageData, ...value })
-        );
-      } else {
-        // 제거
-        sessionStorage.removeItem(key);
-      }
-    },
-    { immediate: true }
-  );
+  watchEffect(() => {
+    if (storage.value) {
+      sessionStorage.setItem(key, JSON.stringify(storage.value));
+    } else {
+      sessionStorage.removeItem(key);
+    }
+  });
 
   return {
     storage,

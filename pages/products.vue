@@ -23,7 +23,7 @@ const { scroll } = useScrollPosition();
 // 상세 페이지로 이동 요청에 의해 페이지 떠날 때 스크롤 위치 저장
 onBeforeRouteLeave(({ name }) => {
   if (name === "product-id") {
-    storage.value = { scrollY: scroll.y };
+    storage.value = { ...storage.value, scrollY: scroll.y };
   } else {
     storage.value = null;
   }
