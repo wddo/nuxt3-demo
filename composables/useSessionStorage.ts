@@ -1,5 +1,5 @@
 import { UnwrapRef } from "nuxt/dist/app/compat/capi";
-import { context } from "~~/app/store";
+import { store } from "~~/app/store";
 
 export const useSessionStorage = <T extends Object>(
   key: string,
@@ -8,7 +8,7 @@ export const useSessionStorage = <T extends Object>(
   // 기존 sessionStorage 없고 앱 첫 진입이면 defaultValue
   const sessionValue = sessionStorage.getItem(key);
   const storage = ref(
-    !sessionValue || !context.initial ? defaultValue : JSON.parse(sessionValue)
+    !sessionValue || !store.initial ? defaultValue : JSON.parse(sessionValue)
   );
 
   watchEffect(() => {

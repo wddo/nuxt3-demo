@@ -5,9 +5,9 @@
 </template>
 
 <script setup lang="ts">
-import { context } from "~~/app/store";
+import { store } from "~~/app/store";
 
 onMounted(() => {
-  context.initial = true;
+  store.setInitial(true);
 });
 </script>
