@@ -31,7 +31,10 @@
 <script setup lang="ts">
 import { ContentLoader } from "vue-content-loader";
 
-const { id } = useAttrs();
+defineProps<{
+  id: number;
+}>();
+
 const imgUri = `https://picsum.photos/600?random=${Math.random()}`;
 </script>
 
