@@ -9,6 +9,9 @@
         <li>
           <nuxt-link to="/esg" noPrefetch>esg</nuxt-link>
         </li>
+        <li>
+          <nuxt-link to="/products">products</nuxt-link>
+        </li>
       </ul>
     </nav>
   </header>
