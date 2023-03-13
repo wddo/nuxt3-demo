@@ -2,10 +2,10 @@ import { fetchProductList } from "~~/api/productAPI";
 
 type Prodcut = {
   id: number;
-  [key: string]: any;
+  [key: string]: unknown;
 };
 
-export const useProductList = () => {
+export const useProductList = (storage: Ref) => {
   const products: {
     data: Prodcut[];
   } = reactive({
@@ -14,34 +14,28 @@ export const useProductList = () => {
   });
 
   const didCancel = ref(false);
-  const { scroll } = useScrollPosition();
-  const { storage } = useSessionStorage<{ page: number; scrollY: number }>(
-    "product-state",
-    { page: 1, scrollY: 0 }
-  );
 
   const getProducts = async () => {
-    didCancel.value = false;
-
     const res = await fetchProductList(storage.value!.page);
 
-    if (!didCancel.value) products.data = res;
+    return res;
   };
 
   const increment = () => {
     const { page } = storage.value;
-    const { y } = scroll;
-    storage.value = { page: page + 1, scrollY: y };
+
+    storage.value = { page: page + 1 };
   };
 
   watch(
     storage,
     async (value, oldValue, onCleanup) => {
-      if (value) {
-        await getProducts();
+      didCancel.value = false;
 
-        const { scrollY } = storage.value;
-        window.scrollTo({ top: scrollY ?? 0 });
+      if (value) {
+        const data = await getProducts();
+
+        if (!didCancel.value) products.data = data;
       }
 
       onCleanup(() => {
@@ -54,6 +48,5 @@ export const useProductList = () => {
   return {
     products,
     increment,
-    storage,
   };
 };

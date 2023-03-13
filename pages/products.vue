@@ -16,9 +16,25 @@
 <script setup lang="ts">
 import { useProductList } from "~~/composables/product/useProduct";
 
-const { products, increment, storage } = useProductList();
+type Storage = Partial<{ page: number; scrollY: number }>;
 
+const { storage } = useSessionStorage<Storage>("product-state", {
+  page: 1,
+  scrollY: 0,
+});
 const { scroll } = useScrollPosition();
+const { products, increment } = useProductList(storage);
+
+const onMoreHandler = () => increment();
+
+watch(
+  products,
+  () => {
+    const top = storage.value?.scrollY;
+    if (top) window.scrollTo({ top });
+  },
+  { flush: "post" }
+);
 
 // 상세 페이지로 이동 요청에 의해 페이지 떠날 때 스크롤 위치 저장
 onBeforeRouteLeave(({ name }) => {
@@ -28,12 +44,6 @@ onBeforeRouteLeave(({ name }) => {
     storage.value = null;
   }
 });
-
-const onMoreHandler = () => {
-  console.log("more");
-
-  increment();
-};
 </script>
 
 <style scoped lang="scss">

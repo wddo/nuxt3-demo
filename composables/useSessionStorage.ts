@@ -3,12 +3,14 @@ import { store } from "~~/app/store";
 
 export const useSessionStorage = <T extends Object>(
   key: string,
-  defaultValue?: UnwrapRef<T>
+  defaultValue?: UnwrapRef<T | null>
 ) => {
   // 기존 sessionStorage 없고 앱 첫 진입이면 defaultValue
   const sessionValue = sessionStorage.getItem(key);
-  const storage = ref(
-    !sessionValue || !store.initial ? defaultValue : JSON.parse(sessionValue)
+  const storage = <Ref<T | null>>(
+    ref(
+      !sessionValue || !store.initial ? defaultValue : JSON.parse(sessionValue)
+    )
   );
 
   watchEffect(() => {
